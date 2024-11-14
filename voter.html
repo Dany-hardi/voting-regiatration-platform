@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voter Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label, select, input {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        #uin {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Voter Registration Platform</h1>
+
+    <form id="uinForm">
+        <label for="age">Enter your age:</label>
+        <input type="number" id="age" name="age" required><br><br>
+
+        <label for="region">Enter your region:</label>
+        <select id="region" name="region" required>
+            <option value="Centre">Centre</option>
+            <option value="Littoral">Littoral</option>
+            <option value="North West">North West</option>
+            <option value="South West">South West</option>
+            <option value="West">West</option>
+            <option value="Adamawa">Adamawa</option>
+            <option value="Far North">Far North</option>
+            <option value="North">North</option>
+            <option value="South">South</option>
+            <option value="East">East</option>
+        </select><br><br>
+
+        <input type="submit" value="Generate UIN">
+    </form>
+
+    <div id="uin"></div>
+
+    <script>
+        // Dictionary to map regions to their code
+        const regions = {
+            'Centre': 'CE',
+            'Littoral': 'LT',
+            'North West': 'NW',
+            'South West': 'SW',
+            'West': 'WE',
+            'Adamawa': 'AD',
+            'Far North': 'FN',
+            'North': 'NO',
+            'South': 'ST',
+            'East': 'EA'
+        };
+
+        // Function to generate UIN
+        function generateUin(age, region) {
+            if (!(region in regions)) {
+                return "Invalid region. Please enter a valid region.";
+            }
+            
+            // Generate a random 4-digit number
+            const randomDigits = Math.floor(Math.random() * 9000) + 1000;
+            const regionCode = regions[region];
+            const uin = `${randomDigits}${regionCode}${age.toString().padStart(2, '0')}`;
+            
+            return uin;
+        }
+
+        // Event listener for form submission
+        document.getElementById('uinForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const age = document.getElementById('age').value;
+            const region = document.getElementById('region').value;
+
+            // Generate the UIN
+            const uin = generateUin(age, region);
+
+            // Display the UIN on the page
+            document.getElementById('uin').textContent = `Your generated UIN is: ${uin}`;
+        });
+    </script>
+</body>
+</html>
